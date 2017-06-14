@@ -2,47 +2,51 @@ package com.llaminator.ghostline;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-/**
- * Created by Артём on 12.06.2017.
- */
+
 
 public class GamePlayScreen implements Screen {
 
     final GamePlay game;
     OrthographicCamera camera;
+    Music GamePlayMusic;
+
     double x = 0, y = 0, x0 = 0, y0 = 0;
     double speedX = 64, speedY = 0;
     int cntX = 0, cntY = 0;
 
+
     public GamePlayScreen(final GamePlay game) {
         this.game = game;
-        camera = new OrthographicCamera(480, 600);
+        camera = new OrthographicCamera(600, 800);
         camera.update();
-
-
+        GamePlayMusic = Gdx.audio.newMusic(Gdx.files.internal("GamePlayMusic.mp3"));
+        GamePlayMusic.play();
+        GamePlayMusic.setLooping(true);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.Mroute.setProjectionMatrix(camera.combined);
 
+
+
         game.Mroute.begin();
         x = x0;
         y = y0;
-        //System.out.println(GameRoute.Level.size());
+
         for (int i = 0; i < game.GameRoute.Level.size(); i++){
             game.Mroute.draw(game.GameRoute.Level.get(i).Step, (float)x, (float) y);
             if (game.GameRoute.Level.get(i).getDir() == 1)
@@ -54,9 +58,8 @@ public class GamePlayScreen implements Screen {
 
 
         game.Mgh.setProjectionMatrix(camera.combined);
-        game.Mgh.begin();
 
-        //System.out.println(Gh.x + " " + Gh.y);
+        game.Mgh.begin();
 
         game.Gh.x += speedX * Gdx.graphics.getDeltaTime();
 
@@ -64,26 +67,28 @@ public class GamePlayScreen implements Screen {
 
         game.Mgh.draw(new Texture(Gdx.files.internal("ghost.png")), (float)game.Gh.x, (float)game.Gh.y);
 
-        //System.out.println(camera.position.x + " " + camera.position.y);
 
         camera.position.x = (float) game.Gh.x;
         camera.position.y = (float) game.Gh.y;
         camera.update();
 
-        //camera.position.set( (float)Gh.x, (float)Gh.y, 0 );
-        //camera.position.set(camera.viewportWidth, camera.viewportHeight, 0);
+        game.Score = game.GameRoute.Level.size() - game.GameRoute.Size;
+        System.out.println(game.Score);
 
         game.Mgh.end();
+
+        game.getBatch().begin();
+        game.getFont().draw(game.getBatch(), ("Score:" + Integer.toString((int)game.Score)),50,50);
+        game.getBatch().end();
+
+
 
 
         if (game.Gh.x - game.GameRoute.Level.get(0).Step.getHeight() * cntX > game.GameRoute.Level.get(0).Step.getHeight()) {
             game.GameRoute.ExpandLevel();
             cntX++;
-            //System.out.println(Gh.IsAlive((int)Gh.x, (int)Gh.y, GameRoute.Level, cntX + cntY));
             if (!game.Gh.IsAlive((int)game.Gh.x, (int)game.Gh.y, game.GameRoute.Level, cntX + cntY)) {
                 game.Gh.Death();
-
-                //dispose();
             }
         }
         if (game.Gh.y -  game.GameRoute.Level.get(0).Step.getHeight() * cntY > game.GameRoute.Level.get(0).Step.getHeight()) {
@@ -92,21 +97,19 @@ public class GamePlayScreen implements Screen {
 
             if (!game.Gh.IsAlive((int)game.Gh.x, (int)game.Gh.y, game.GameRoute.Level, cntX + cntY)) {
                 game.Gh.Death();
-
-                //dispose();
             }
         }
 
-        if(!game.Gh.IsAlive)
+        if(!game.Gh.IsAlive) {
             dispose();
+            game.setDeathScreen();
+        }
 
         if (Gdx.input.justTouched()) {
             double tmp = speedX;
             speedX = speedY;
             speedY = tmp;
-
         }
-
 
     }
 
@@ -132,6 +135,7 @@ public class GamePlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        GamePlayMusic.dispose();
 
     }
 }

@@ -47,8 +47,6 @@ public class Ghost {
                 supX += L.get(i).Step.getHeight();
         }
 
-        //System.out.println(supX + " " + x + " " + (supX + L.get(0).Step.getHeight() / 2));
-        //System.out.println(supY + " " + y + " " + (supY + L.get(0).Step.getHeight() / 2));
         if ((x < supX || x > supX + L.get(0).Step.getHeight() / 2) && (y < supX || y > supY + L.get(0).Step.getHeight() /2))
             setDeath();
         return IsAlive;
@@ -57,7 +55,5 @@ public class Ghost {
 
     public void Death(){
         setDeath();
-        //imageView.animate().translationYBy(100).alpha(0).setDuration(1000); what is it??(
-        // smth for death
     }
 }
