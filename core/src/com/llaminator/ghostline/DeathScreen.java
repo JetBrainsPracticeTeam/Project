@@ -21,10 +21,8 @@ class DeathScreen implements Screen {
         this.game = gam;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 685,990);
-        if (Gdx.input.justTouched()) {
-            game.setMainMenuScreen();
-        }
+        camera.setToOrtho(false, 600,800);
+
 
     }
 
@@ -40,6 +38,12 @@ class DeathScreen implements Screen {
         game.getBatch().begin();
         //game.getBatch().draw(img, 0, 0);
         game.getBatch().end();
+
+        if (Gdx.input.justTouched()) {
+            dispose();
+            game.setMainMenuScreen();
+
+        }
     }
 
     @Override
@@ -64,9 +68,12 @@ class DeathScreen implements Screen {
 
     @Override
     public void dispose() {
-        img.dispose();
-        //game.dispose();
-        //game.batch.dispose();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

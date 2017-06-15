@@ -46,8 +46,10 @@ public class Ghost {
             else
                 supX += L.get(i).Step.getHeight();
         }
-
-        if ((x < supX || x > supX + L.get(0).Step.getHeight() / 2) && (y < supX || y > supY + L.get(0).Step.getHeight() /2))
+        System.out.println(supX + " " + supY);
+        System.out.println(x + " " + y);
+        System.out.println();
+        if ((x + L.get(0).Step.getHeight() / 2 < supX || x > supX + L.get(0).Step.getHeight()) || (y + L.get(0).Step.getHeight()/2 < supY || y > supY + L.get(0).Step.getHeight()))
             setDeath();
         return IsAlive;
 

@@ -22,7 +22,7 @@ public class PauseScreen implements Screen {
     public PauseScreen(GamePlay game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 600,800);
+        camera.setToOrtho(false, 600, 800);
         img = new Texture("pause.jpg");
         addPause = new Texture("add_pause.png");
     }

@@ -5,6 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 
 public class GamePlay extends Game {
 
@@ -16,6 +20,8 @@ public class GamePlay extends Game {
 
 	Route GameRoute;
 	Ghost Gh;
+
+	boolean Sound = true;
 
 
 	double x0 = 0, y0 = 0, Score = 0;
@@ -29,12 +35,12 @@ public class GamePlay extends Game {
 		mFont = new BitmapFont();
 		GameRoute = new Route();
 		Gh = new Ghost(x0, y0);
+		Score = 0;
 
-		this.setScreen(new MainMenuScreen(this));
+
+		setMainMenuScreen();
 	}
-	public void setGamePlayScreen() {
-		this.setScreen(new GamePlayScreen(this));
-	}
+	public void setGamePlayScreen() {this.setScreen(new GamePlayScreen(this));	}
 
 	public void setMainMenuScreen() {
 		this.setScreen(new MainMenuScreen(this));

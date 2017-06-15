@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 
 public class GamePlayScreen implements Screen {
@@ -14,9 +19,11 @@ public class GamePlayScreen implements Screen {
     final GamePlay game;
     OrthographicCamera camera;
     Music GamePlayMusic;
-
+    String HighScore;
+    boolean Sound;
+    static int DeltaSpeed = 5;
     double x = 0, y = 0, x0 = 0, y0 = 0;
-    double speedX = 64, speedY = 0;
+    double speedX = 64, speedY = 0, speedIncTime = DeltaSpeed,  resScore = 0;
     int cntX = 0, cntY = 0;
 
 
@@ -24,9 +31,24 @@ public class GamePlayScreen implements Screen {
         this.game = game;
         camera = new OrthographicCamera(600, 800);
         camera.update();
+
         GamePlayMusic = Gdx.audio.newMusic(Gdx.files.internal("GamePlayMusic.mp3"));
-        GamePlayMusic.play();
-        GamePlayMusic.setLooping(true);
+        if (Sound) {
+            GamePlayMusic.play();
+            GamePlayMusic.setLooping(true);
+        }
+        /*Scanner in = null;
+        try {
+            in = new Scanner(new FileReader("HighScore.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        while(in.hasNext()) {
+            sb.append(in.next());
+        }
+        in.close();
+        HighScore = sb.toString();*/
     }
 
     @Override
@@ -40,6 +62,16 @@ public class GamePlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.Mroute.setProjectionMatrix(camera.combined);
+
+        if (speedIncTime == 0) {
+            if(speedX != 0)
+                speedX+=5;
+            else
+                speedY+=5;
+            speedIncTime = DeltaSpeed;
+        }
+
+
 
 
 
@@ -73,13 +105,20 @@ public class GamePlayScreen implements Screen {
         camera.update();
 
         game.Score = game.GameRoute.Level.size() - game.GameRoute.Size;
-        System.out.println(game.Score);
+        //System.out.println(game.Score);
 
         game.Mgh.end();
 
         game.getBatch().begin();
+
+
         game.getFont().draw(game.getBatch(), ("Score:" + Integer.toString((int)game.Score)),50,50);
+        //game.getFont().draw(game.getBatch(), ("Highest Score:" + HighScore),50,100);
+        if (game.Score - resScore != 0)
+            speedIncTime--;
+        resScore = game.Score;
         game.getBatch().end();
+
 
 
 
@@ -101,6 +140,14 @@ public class GamePlayScreen implements Screen {
         }
 
         if(!game.Gh.IsAlive) {
+            /*PrintStream out = null;
+            try {
+                out = new PrintStream(new FileOutputStream("HighScore.txt"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            System.setOut(out);*/
+            System.out.println((int)game.Score);
             dispose();
             game.setDeathScreen();
         }
@@ -135,6 +182,10 @@ public class GamePlayScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        game.Gh.IsAlive = true;
+        game.Gh.x = x0;
+        game.Gh.y = y0;
         GamePlayMusic.dispose();
 
     }
