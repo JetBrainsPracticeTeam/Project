@@ -2,9 +2,6 @@ package com.llaminator.ghostline;
 
 import com.badlogic.gdx.graphics.Texture;
 
-
-import java.awt.Rectangle;
-
 public class RouteStep {
     Texture Step;
     int Dir;

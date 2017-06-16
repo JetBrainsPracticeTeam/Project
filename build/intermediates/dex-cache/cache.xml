@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Артём\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.6\47d1e9b890e364ec28f128e9bb3b9a12a94c164\gdx-1.9.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.1"
+        sha1="047d1e9b890e364ec28f128e9bb3b9a12a94c164">
+        <dex dex="C:\Android_Stuff\Project\android\build\intermediates\pre-dexed\debug\gdx-1.9.6_b54d854fba26a172558af723b55d1b46ce817293.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Артём\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.9.6\57c2831c870743712b808384187ea856e541878f\gdx-backend-android-1.9.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.1"
+        sha1="57c2831c870743712b808384187ea856e541878f">
+        <dex dex="C:\Android_Stuff\Project\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.6_80ae92777d58912bb413813f4e5cd92fda852ceb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Артём\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.9.6\57c2831c870743712b808384187ea856e541878f\gdx-backend-android-1.9.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="57c2831c870743712b808384187ea856e541878f">
+        <dex dex="C:\Android_Stuff\Project\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.6_80ae92777d58912bb413813f4e5cd92fda852ceb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Артём\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.6\47d1e9b890e364ec28f128e9bb3b9a12a94c164\gdx-1.9.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="047d1e9b890e364ec28f128e9bb3b9a12a94c164">
+        <dex dex="C:\Android_Stuff\Project\android\build\intermediates\pre-dexed\debug\gdx-1.9.6_b54d854fba26a172558af723b55d1b46ce817293.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Android_Stuff\Project\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.1"
+        sha1="65a782cb62a4b68596f7f4c623c92ed1e8744117">
+        <dex dex="C:\Android_Stuff\Project\android\build\intermediates\pre-dexed\debug\core-1.0_47c93d577e9e5b0f04608245c826082fb74802c5.jar" />
+    </item>
+
+</items>
