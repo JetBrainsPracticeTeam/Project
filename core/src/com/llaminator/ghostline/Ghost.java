@@ -5,15 +5,6 @@ import java.util.ArrayList;
 
 public class Ghost {
 
-    @Override
-    public String toString() {
-        return "Ghost{" +
-                "IsAlive=" + IsAlive +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
-    }
-
     boolean IsAlive;
     double x;
     double y;
@@ -46,13 +37,23 @@ public class Ghost {
             else
                 supX += L.get(i).Step.getHeight();
         }
-        System.out.println(supX + " " + supY);
+
+        /*System.out.println(supX + " " + supY);
         System.out.println(x + " " + y);
-        System.out.println();
-        if ((x + L.get(0).Step.getHeight() / 2 < supX || x > supX + L.get(0).Step.getHeight()) || (y + L.get(0).Step.getHeight()/2 < supY || y > supY + L.get(0).Step.getHeight()))
+        System.out.println();*/
+        if ((x + L.get(0).Step.getWidth() / 2 < supX || x > supX + L.get(0).Step.getWidth()) || (y + L.get(0).Step.getHeight()/2 < supY || y > supY + L.get(0).Step.getHeight()))
             setDeath();
         return IsAlive;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Ghost{" +
+                "IsAlive=" + IsAlive +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 
     public void Death(){

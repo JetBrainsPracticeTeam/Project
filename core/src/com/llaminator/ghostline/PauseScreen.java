@@ -22,9 +22,9 @@ public class PauseScreen implements Screen {
     public PauseScreen(GamePlay game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 600, 800);
-        img = new Texture("pause.jpg");
-        addPause = new Texture("add_pause.png");
+        camera.setToOrtho(false, 540, 720);
+        img = new Texture("PausePause.png");
+        addPause = new Texture("add_pause.jpg");
     }
 
 
@@ -40,13 +40,12 @@ public class PauseScreen implements Screen {
 
         game.getBatch().begin();
         game.getBatch().draw(img, 0, 0);
-        game.getBatch().draw(addPause, 50, 100);
-        this.startString = "Tap to Continue";
-        game.getFont().draw(game.getBatch(), startString, 280, 500);
+        game.getBatch().draw(addPause, 0, 0);
 
-        if (Gdx.input.isTouched()) {
-
+        if (Gdx.input.justTouched()) {
+            game.setGamePlayScreen(228);
         }
+
 
         game.getBatch().end();
     }

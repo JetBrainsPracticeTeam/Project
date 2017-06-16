@@ -6,12 +6,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintStream;
-import java.util.Scanner;
 
 
 public class GamePlayScreen implements Screen {
@@ -20,23 +16,37 @@ public class GamePlayScreen implements Screen {
     OrthographicCamera camera;
     Music GamePlayMusic;
     String HighScore;
-    boolean Sound;
+    Texture Pause;
+
     static int DeltaSpeed = 5;
-    double x = 0, y = 0, x0 = 0, y0 = 0;
-    double speedX = 64, speedY = 0, speedIncTime = DeltaSpeed,  resScore = 0;
+    double x = 0, y = 0;
+    double speedX = 0, speedY = 0, speedIncTime = DeltaSpeed,  resScore = 0, saveSpeedX = 64, saveSpeedY = 0;
     int cntX = 0, cntY = 0;
 
 
     public GamePlayScreen(final GamePlay game) {
         this.game = game;
-        camera = new OrthographicCamera(600, 800);
+        camera = new OrthographicCamera(540, 720);
         camera.update();
+        speedX = saveSpeedX;
+        speedY = saveSpeedY;
+
+        game.Gh.x = game.saveX;
+        game.Gh.y = game.saveY;
+        Pause = new Texture("pause.png");
+        game.Score -= game.saveScore;
 
         GamePlayMusic = Gdx.audio.newMusic(Gdx.files.internal("GamePlayMusic.mp3"));
-        if (Sound) {
+        if (game.Sound) {
             GamePlayMusic.play();
             GamePlayMusic.setLooping(true);
         }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         /*Scanner in = null;
         try {
             in = new Scanner(new FileReader("HighScore.txt"));
@@ -57,7 +67,6 @@ public class GamePlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -72,12 +81,11 @@ public class GamePlayScreen implements Screen {
         }
 
 
-
-
-
         game.Mroute.begin();
-        x = x0;
-        y = y0;
+
+        x = game.x0;
+        y = game.y0;
+
 
         for (int i = 0; i < game.GameRoute.Level.size(); i++){
             game.Mroute.draw(game.GameRoute.Level.get(i).Step, (float)x, (float) y);
@@ -105,11 +113,12 @@ public class GamePlayScreen implements Screen {
         camera.update();
 
         game.Score = game.GameRoute.Level.size() - game.GameRoute.Size;
-        //System.out.println(game.Score);
+
 
         game.Mgh.end();
 
         game.getBatch().begin();
+        game.getBatch().draw(Pause, 0, 0);
 
 
         game.getFont().draw(game.getBatch(), ("Score:" + Integer.toString((int)game.Score)),50,50);
@@ -118,10 +127,6 @@ public class GamePlayScreen implements Screen {
             speedIncTime--;
         resScore = game.Score;
         game.getBatch().end();
-
-
-
-
 
         if (game.Gh.x - game.GameRoute.Level.get(0).Step.getHeight() * cntX > game.GameRoute.Level.get(0).Step.getHeight()) {
             game.GameRoute.ExpandLevel();
@@ -138,24 +143,23 @@ public class GamePlayScreen implements Screen {
                 game.Gh.Death();
             }
         }
+        System.out.println((int)game.Gh.x + " " + (int)game.Gh.y);
 
         if(!game.Gh.IsAlive) {
-            /*PrintStream out = null;
-            try {
-                out = new PrintStream(new FileOutputStream("HighScore.txt"));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            System.setOut(out);*/
-            System.out.println((int)game.Score);
             dispose();
             game.setDeathScreen();
         }
 
-        if (Gdx.input.justTouched()) {
-            double tmp = speedX;
-            speedX = speedY;
-            speedY = tmp;
+        Vector3 touchPos = new Vector3 (Gdx.input.getX(), Gdx.input.getY(), 0);
+
+        if(Gdx.input.justTouched()) {
+            if ((touchPos.x > 0 && touchPos.x < Pause.getWidth()) && (Gdx.app.getGraphics().getHeight() - touchPos.y > 0 && Gdx.app.getGraphics().getHeight() - touchPos.y < Pause.getHeight())) {
+                pause();
+            } else {
+                double tmp = speedX;
+                speedX = speedY;
+                speedY = tmp;
+            }
         }
 
     }
@@ -167,7 +171,16 @@ public class GamePlayScreen implements Screen {
 
     @Override
     public void pause() {
+        game.saveX = game.Gh.x;
+        game.saveY = game.Gh.y;
 
+        saveSpeedX = speedX;
+        speedX = 0;
+        saveSpeedY = speedY;
+        speedY = 0;
+        game.saveScore = game.Score;
+        GamePlayMusic.dispose();
+        game.setPauseScreen();
     }
 
     @Override
@@ -184,8 +197,9 @@ public class GamePlayScreen implements Screen {
     public void dispose() {
 
         game.Gh.IsAlive = true;
-        game.Gh.x = x0;
-        game.Gh.y = y0;
+        game.Gh.x = game.x0;
+        game.Gh.y = game.y0;
+        game.Score = 0;
         GamePlayMusic.dispose();
 
     }

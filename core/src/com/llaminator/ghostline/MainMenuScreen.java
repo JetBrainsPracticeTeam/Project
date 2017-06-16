@@ -35,7 +35,7 @@ class MainMenuScreen implements Screen {
         StartMusic = Gdx.audio.newMusic(Gdx.files.internal("MenuMusic.mp3"));
         if (game.Sound)
             StartMusic.play();
-        //StartMusic.setLooping(true);
+
         SoundButton = new SpriteBatch();
 
         button = new Texture(Gdx.files.internal("SoundButton.jpg"));
@@ -60,12 +60,9 @@ class MainMenuScreen implements Screen {
         game.getFont().draw(game.getBatch(), startString , 280, 500);
 
         Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-        //System.out.println(button.getHeight());
-        System.out.println(touchPos.x + " " + (Gdx.app.getGraphics().getHeight() - touchPos.y));
-        System.out.println(button.getHeight()*Gdx.app.getGraphics().getHeight()/800);
-        System.out.println(buttonLocationX + button.getHeight()*Gdx.app.getGraphics().getWidth()/600);
+
         if(Gdx.input.isTouched())
-            if ((touchPos.x > buttonLocationX && touchPos.x < buttonLocationX + button.getHeight()*Gdx.app.getGraphics().getWidth()/600) && (Gdx.app.getGraphics().getHeight() - touchPos.y > buttonLocationY && Gdx.app.getGraphics().getHeight() - touchPos.y < button.getHeight()*Gdx.app.getGraphics().getHeight()/800)) {
+            if ((touchPos.x > buttonLocationX && touchPos.x < buttonLocationX + button.getHeight()*Gdx.app.getGraphics().getWidth()/540) && (Gdx.app.getGraphics().getHeight() - touchPos.y > buttonLocationY && Gdx.app.getGraphics().getHeight() - touchPos.y < button.getHeight()*Gdx.app.getGraphics().getHeight()/720)) {
 
                 if (game.Sound == false) {
                     StartMusic.play();
@@ -89,7 +86,7 @@ class MainMenuScreen implements Screen {
         if(Gdx.input.isTouched())
             if (!((touchPos.x > buttonLocationX && touchPos.x < buttonLocationX + button.getHeight()) && (800 - touchPos.y > buttonLocationY && 800 - touchPos.y < button.getHeight()))) {
                 dispose();
-                game.setGamePlayScreen();
+                game.setGamePlayScreen(0);
             }
 
         game.getBatch().end();
@@ -122,8 +119,7 @@ class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         img.dispose();
-        StartMusic.dispose();
-
+        StartMusic.stop();
     }
 }
 

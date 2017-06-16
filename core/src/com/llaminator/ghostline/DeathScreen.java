@@ -21,9 +21,9 @@ class DeathScreen implements Screen {
         this.game = gam;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 600,800);
+        camera.setToOrtho(false, 540,720);
 
-
+        img = new Texture(Gdx.files.internal("DeathScreen.jpg"));
     }
 
     @Override
@@ -36,9 +36,10 @@ class DeathScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.getBatch().begin();
-        //game.getBatch().draw(img, 0, 0);
+        game.getBatch().draw(img, 0, 0);
         game.getBatch().end();
-
+        game.Score = 0;
+        game.saveScore = 0;
         if (Gdx.input.justTouched()) {
             dispose();
             game.setMainMenuScreen();
